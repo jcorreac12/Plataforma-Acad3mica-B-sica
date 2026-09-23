@@ -31,3 +31,6 @@ También puedes usar la extensión **Live Server** de Visual Studio Code para in
 - HTML5
 - CSS3
 - JavaScript
+
+## Integrantes
+John Harold Belalcazar Lozano
