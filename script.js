@@ -1,359 +1,98 @@
-:root {
-  --bg-1: #eef4ff;
-  --bg-2: #dfeaff;
-  --panel: rgba(255, 255, 255, 0.78);
-  --panel-border: rgba(132, 158, 214, 0.4);
-  --primary: #2f5ecf;
-  --primary-dark: #2349a8;
-  --primary-soft: #ecf3ff;
-  --text: #1a2745;
-  --text-muted: #5f6d8a;
-  --success: #2db77b;
-  --shadow: 0 25px 60px rgba(38, 64, 115, 0.18);
+const formulario = document.getElementById('formulario-nombre');
+const campoNombre = document.getElementById('nombre');
+const listaNombres = document.getElementById('lista-nombres');
+const fechaHora = document.getElementById('fecha-hora');
+const ultimoNombre = document.getElementById('ultimo-nombre');
+const contadorTotal = document.getElementById('contador-total');
+const modal = document.getElementById('modal');
+const cerrarModal = document.getElementById('cerrar-modal');
+
+const nombres = new Map();
+
+function actualizarFechaHora() {
+  const ahora = new Date();
+  const fecha = ahora.toLocaleDateString('es-ES', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+  const hora = ahora.toLocaleTimeString('es-ES');
+  fechaHora.textContent = `${fecha} · ${hora}`;
 }
 
-* {
-  box-sizing: border-box;
+function normalizarNombre(nombre) {
+  return nombre
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim()
+    .toLocaleLowerCase('es');
 }
 
-html, body {
-  margin: 0;
-  min-height: 100%;
-  font-family: "Inter", Arial, sans-serif;
-  background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
-  color: var(--text);
-}
+function mostrarNombres() {
+  listaNombres.innerHTML = '';
 
-body {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 32px 18px;
-  overflow-x: hidden;
-}
-
-.background-orb {
-  position: fixed;
-  border-radius: 50%;
-  filter: blur(70px);
-  opacity: 0.45;
-  z-index: 0;
-}
-
-.orb-1 {
-  width: 280px;
-  height: 280px;
-  background: rgba(87, 129, 255, 0.32);
-  top: 8%;
-  left: 7%;
-}
-
-.orb-2 {
-  width: 340px;
-  height: 340px;
-  background: rgba(50, 185, 166, 0.18);
-  right: 7%;
-  bottom: 8%;
-}
-
-.contenedor {
-  position: relative;
-  z-index: 1;
-  width: min(100%, 860px);
-}
-
-.panel-principal {
-  background: var(--panel);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--panel-border);
-  border-radius: 28px;
-  padding: 30px 30px 24px;
-  box-shadow: var(--shadow);
-}
-
-.encabezado {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 18px;
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
-  background: rgba(47, 94, 207, 0.1);
-  color: var(--primary-dark);
-  border: 1px solid rgba(47, 94, 207, 0.15);
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.fecha-hora {
-  margin: 0;
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-align: right;
-}
-
-.hero {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 14px 0 26px;
-  padding: 16px 8px 8px;
-}
-
-.texto-principal {
-  text-align: center;
-}
-
-h1 {
-  margin: 0;
-  font-size: clamp(2rem, 4vw, 3.15rem);
-  line-height: 1.15;
-  letter-spacing: -0.04em;
-  color: var(--text);
-}
-
-.subtitulo {
-  margin: 12px auto 0;
-  max-width: 600px;
-  font-size: 1.05rem;
-  color: var(--text-muted);
-  line-height: 1.6;
-}
-
-.formulario {
-  margin-top: 12px;
-  padding: 22px 18px 18px;
-  background: rgba(255, 255, 255, 0.52);
-  border: 1px solid rgba(128, 155, 214, 0.2);
-  border-radius: 18px;
-}
-
-.formulario label {
-  display: block;
-  margin-bottom: 10px;
-  font-size: 0.98rem;
-  font-weight: 700;
-  color: var(--text);
-}
-
-.campo-nombre {
-  display: flex;
-  gap: 12px;
-}
-
-input {
-  flex: 1;
-  min-width: 0;
-  padding: 14px 16px;
-  border: 1px solid rgba(85, 111, 176, 0.35);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--text);
-  font: inherit;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-input::placeholder {
-  color: #8b96b2;
-}
-
-input:focus {
-  outline: none;
-  border-color: rgba(47, 94, 207, 0.7);
-  box-shadow: 0 0 0 4px rgba(47, 94, 207, 0.14);
-}
-
-button {
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: white;
-  padding: 14px 20px;
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 10px 22px rgba(47, 94, 207, 0.25);
-}
-
-button:hover {
-  transform: translateY(-1px);
-}
-
-button:active {
-  transform: translateY(0);
-}
-
-.resumen {
-  margin-top: 18px;
-  padding: 12px 18px;
-  background: linear-gradient(135deg, rgba(86, 136, 255, 0.07), rgba(45, 183, 123, 0.08));
-  border: 1px solid rgba(128, 155, 214, 0.18);
-  border-radius: 14px;
-}
-
-.resumen-titulo {
-  margin: 0 0 5px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
-.ultimo-nombre {
-  margin: 0;
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--text);
-}
-
-.registro {
-  margin-top: 26px;
-  padding-top: 18px;
-  border-top: 1px solid rgba(128, 155, 214, 0.2);
-}
-
-.titulo-registro-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-h2 {
-  margin: 0;
-  font-size: 1.32rem;
-  color: var(--text);
-}
-
-.contador-total {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 42px;
-  height: 34px;
-  padding: 0 10px;
-  background: var(--primary-soft);
-  color: var(--primary-dark);
-  border-radius: 999px;
-  font-size: 0.9rem;
-  font-weight: 800;
-}
-
-.lista-nombres {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 12px;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.lista-nombres li {
-  padding: 14px 16px;
-  border-radius: 14px;
-  background: rgba(240, 245, 255, 0.9);
-  border: 1px solid rgba(165, 181, 224, 0.4);
-  color: var(--text);
-  font-weight: 600;
-  text-align: center;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
-}
-
-.lista-nombres li:nth-child(odd) {
-  background: rgba(232, 243, 255, 0.8);
-}
-
-.lista-nombres .vacio {
-  grid-column: 1 / -1;
-  background: rgba(246, 249, 255, 0.75);
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-.modal {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(14, 21, 35, 0.52);
-  z-index: 20;
-  padding: 20px;
-}
-
-.modal.oculto {
-  display: none;
-}
-
-.modal-contenido {
-  width: min(100%, 420px);
-  background: white;
-  border-radius: 22px;
-  padding: 28px 26px 24px;
-  text-align: center;
-  box-shadow: 0 25px 60px rgba(11, 20, 38, 0.28);
-}
-
-.icono-modal {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-}
-
-.modal-contenido h3 {
-  margin: 0 0 8px;
-  font-size: 1.5rem;
-  color: var(--text);
-}
-
-.modal-contenido p {
-  margin: 0 0 18px;
-  line-height: 1.6;
-  color: var(--text-muted);
-}
-
-#cerrar-modal {
-  width: 100%;
-}
-
-@media (max-width: 640px) {
-  .panel-principal {
-    padding: 22px 18px 20px;
+  if (nombres.size === 0) {
+    const mensaje = document.createElement('li');
+    mensaje.className = 'vacio';
+    mensaje.textContent = 'Aún no hay nombres registrados.';
+    listaNombres.appendChild(mensaje);
+    contadorTotal.textContent = '0';
+    return;
   }
 
-  .encabezado {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+  const registros = [...nombres.values()].sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+  contadorTotal.textContent = String(registros.length);
 
-  .fecha-hora {
-    text-align: left;
-  }
-
-  .campo-nombre {
-    flex-direction: column;
-  }
-
-  button {
-    width: 100%;
-  }
-
-  .titulo-registro-row {
-    align-items: flex-start;
-    flex-direction: column;
-  }
+  registros.forEach(({ nombre, cantidad }) => {
+    const elemento = document.createElement('li');
+    elemento.textContent = cantidad > 1 ? `${nombre} - ${cantidad}` : nombre;
+    listaNombres.appendChild(elemento);
+  });
 }
+
+function abrirModal() {
+  modal.classList.remove('oculto');
+}
+
+function cerrarModalVentana() {
+  modal.classList.add('oculto');
+}
+
+formulario.addEventListener('submit', (evento) => {
+  evento.preventDefault();
+
+  const nombre = campoNombre.value.trim();
+
+  if (!nombre) {
+    campoNombre.focus();
+    return;
+  }
+
+  const clave = normalizarNombre(nombre);
+  const registroExistente = nombres.get(clave);
+
+  if (registroExistente) {
+    registroExistente.cantidad += 1;
+  } else {
+    nombres.set(clave, { nombre, cantidad: 1 });
+  }
+
+  ultimoNombre.textContent = nombre;
+  mostrarNombres();
+  formulario.reset();
+  campoNombre.focus();
+  abrirModal();
+});
+
+cerrarModal.addEventListener('click', cerrarModalVentana);
+modal.addEventListener('click', (evento) => {
+  if (evento.target === modal) {
+    cerrarModalVentana();
+  }
+});
+
+actualizarFechaHora();
+setInterval(actualizarFechaHora, 1000);
+mostrarNombres();
+

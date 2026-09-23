@@ -1,98 +1,33 @@
-const formulario = document.getElementById('formulario-nombre');
-const campoNombre = document.getElementById('nombre');
-const listaNombres = document.getElementById('lista-nombres');
-const fechaHora = document.getElementById('fecha-hora');
-const ultimoNombre = document.getElementById('ultimo-nombre');
-const contadorTotal = document.getElementById('contador-total');
-const modal = document.getElementById('modal');
-const cerrarModal = document.getElementById('cerrar-modal');
+# Plataforma Académica Básica
 
-const nombres = new Map();
+Aplicación web sencilla para registrar nombres y mostrar un resumen de las personas registradas.
 
-function actualizarFechaHora() {
-  const ahora = new Date();
-  const fecha = ahora.toLocaleDateString('es-ES', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  });
-  const hora = ahora.toLocaleTimeString('es-ES');
-  fechaHora.textContent = `${fecha} · ${hora}`;
-}
+## Funcionalidades
 
-function normalizarNombre(nombre) {
-  return nombre
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .trim()
-    .toLocaleLowerCase('es');
-}
+- Muestra la fecha y la hora actualizadas en tiempo real.
+- Permite registrar un nombre desde un formulario.
+- Agrupa registros repetidos sin distinguir mayúsculas ni acentos.
+- Muestra el total de personas registradas y el último nombre ingresado.
+- Presenta un mensaje de confirmación después de cada registro.
+- Se adapta a pantallas pequeñas.
 
-function mostrarNombres() {
-  listaNombres.innerHTML = '';
+## Estructura del proyecto
 
-  if (nombres.size === 0) {
-    const mensaje = document.createElement('li');
-    mensaje.className = 'vacio';
-    mensaje.textContent = 'Aún no hay nombres registrados.';
-    listaNombres.appendChild(mensaje);
-    contadorTotal.textContent = '0';
-    return;
-  }
+```text
+index.html  Estructura y contenido de la página.
+style.css   Estilos y diseño responsivo.
+script.js   Lógica de registro e interacción con la página.
+README.md   Documentación del proyecto.
+```
 
-  const registros = [...nombres.values()].sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
-  contadorTotal.textContent = String(registros.length);
+## Ejecución
 
-  registros.forEach(({ nombre, cantidad }) => {
-    const elemento = document.createElement('li');
-    elemento.textContent = cantidad > 1 ? `${nombre} - ${cantidad}` : nombre;
-    listaNombres.appendChild(elemento);
-  });
-}
+No requiere instalación de dependencias ni servidor. Abre `index.html` directamente en un navegador moderno.
 
-function abrirModal() {
-  modal.classList.remove('oculto');
-}
+También puedes usar la extensión **Live Server** de Visual Studio Code para iniciar un servidor local y recargar los cambios automáticamente.
 
-function cerrarModalVentana() {
-  modal.classList.add('oculto');
-}
+## Tecnologías
 
-formulario.addEventListener('submit', (evento) => {
-  evento.preventDefault();
-
-  const nombre = campoNombre.value.trim();
-
-  if (!nombre) {
-    campoNombre.focus();
-    return;
-  }
-
-  const clave = normalizarNombre(nombre);
-  const registroExistente = nombres.get(clave);
-
-  if (registroExistente) {
-    registroExistente.cantidad += 1;
-    registroExistente.nombre = registroExistente.nombre;
-  } else {
-    nombres.set(clave, { nombre, cantidad: 1 });
-  }
-
-  ultimoNombre.textContent = nombre;
-  mostrarNombres();
-  formulario.reset();
-  campoNombre.focus();
-  abrirModal();
-});
-
-cerrarModal.addEventListener('click', cerrarModalVentana);
-modal.addEventListener('click', (evento) => {
-  if (evento.target === modal) {
-    cerrarModalVentana();
-  }
-});
-
-actualizarFechaHora();
-setInterval(actualizarFechaHora, 1000);
-mostrarNombres();
+- HTML5
+- CSS3
+- JavaScript
