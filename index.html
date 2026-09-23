@@ -1,35 +1,75 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plataforma Académica Básica</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <main class="contenedor">
-    <section class="tarjeta" aria-labelledby="titulo">
-      <p id="fecha-hora" class="fecha-hora" aria-live="polite"></p>
-      <h1 id="titulo">Bienvenido a Plataforma Académica Básica</h1>
-      <p class="descripcion">Escribe tu nombre para registrarte en la página.</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plataforma Académica Básica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="background-orb orb-1"></div>
+    <div class="background-orb orb-2"></div>
 
-      <form id="formulario-nombre" class="formulario">
-        <label for="nombre">Nombre</label>
-        <div class="campo-nombre">
-          <input id="nombre" name="nombre" type="text" placeholder="Ingresa tu nombre" autocomplete="name" required maxlength="60">
-          <button type="submit">Aceptar</button>
+    <main class="contenedor">
+      <section class="panel-principal">
+        <div class="encabezado">
+          <span class="badge">Portal estudiantil</span>
+          <p id="fecha-hora" class="fecha-hora" aria-live="polite">Cargando fecha...</p>
         </div>
-      </form>
 
-      <section class="registro" aria-labelledby="titulo-registro">
-        <h2 id="titulo-registro">Personas registradas</h2>
-        <ul id="lista-nombres" class="lista-nombres">
-          <li class="vacio">Aún no hay nombres registrados.</li>
-        </ul>
+        <div class="hero">
+          <div class="texto-principal">
+            <h1>Bienvenido a Plataforma Académica Básica</h1>
+            <p class="subtitulo">Tu espacio académico, con información actualizada y una experiencia más clara.</p>
+          </div>
+        </div>
+
+        <form id="formulario-nombre" class="formulario" novalidate>
+          <label for="nombre">Nombre de la persona</label>
+          <div class="campo-nombre">
+            <input
+              id="nombre"
+              name="nombre"
+              type="text"
+              placeholder="Escribe tu nombre"
+              autocomplete="name"
+              maxlength="60"
+              required
+            />
+            <button type="submit">Aceptar</button>
+          </div>
+        </form>
+
+        <div class="resumen">
+          <p class="resumen-titulo">Último registro</p>
+          <p id="ultimo-nombre" class="ultimo-nombre">Aún no hay registros</p>
+        </div>
+
+        <section class="registro" aria-labelledby="titulo-registro">
+          <div class="titulo-registro-row">
+            <h2 id="titulo-registro">Personas registradas</h2>
+            <span id="contador-total" class="contador-total">0</span>
+          </div>
+
+          <ul id="lista-nombres" class="lista-nombres">
+            <li class="vacio">Aún no hay nombres registrados.</li>
+          </ul>
+        </section>
       </section>
-    </section>
-  </main>
+    </main>
 
-  <script src="script.js"></script>
-</body>
+    <div id="modal" class="modal oculto" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+      <div class="modal-contenido">
+        <div class="icono-modal">🚧</div>
+        <h3 id="modal-titulo">Sitio en desarrollo</h3>
+        <p>El sitio web está en desarrollo y volverá pronto con nuevas mejoras.</p>
+        <button id="cerrar-modal" type="button">Entendido</button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
 </html>
