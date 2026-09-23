@@ -1,2 +1,2 @@
-# Plataforma-Acad-mica-B-sica
+# Plataforma-Académica-Básica
 Proyecto básico para taller de Git y GitHub.
