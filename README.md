@@ -34,3 +34,6 @@ También puedes usar la extensión **Live Server** de Visual Studio Code para in
 
 ## Integrantes
 John Harold Belalcazar Lozano
+Jonathan Correa Correa
+Mayer Chamorro
+
