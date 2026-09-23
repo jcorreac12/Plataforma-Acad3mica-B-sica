@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plataforma Académica Básica</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="contenedor">
+    <section class="tarjeta" aria-labelledby="titulo">
+      <p id="fecha-hora" class="fecha-hora" aria-live="polite"></p>
+      <h1 id="titulo">Bienvenido a Plataforma Académica Básica</h1>
+      <p class="descripcion">Escribe tu nombre para registrarte en la página.</p>
+
+      <form id="formulario-nombre" class="formulario">
+        <label for="nombre">Nombre</label>
+        <div class="campo-nombre">
+          <input id="nombre" name="nombre" type="text" placeholder="Ingresa tu nombre" autocomplete="name" required maxlength="60">
+          <button type="submit">Aceptar</button>
+        </div>
+      </form>
+
+      <section class="registro" aria-labelledby="titulo-registro">
+        <h2 id="titulo-registro">Personas registradas</h2>
+        <ul id="lista-nombres" class="lista-nombres">
+          <li class="vacio">Aún no hay nombres registrados.</li>
+        </ul>
+      </section>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
